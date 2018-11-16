@@ -1,0 +1,66 @@
+# depslib dependency file v1.0
+1540870318 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\circle.cpp
+	"circle.h"
+	"math.h"
+
+1540870320 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\circle.h
+	"point2d.h"
+	"polygon.h"
+	"drawable.h"
+
+1540870320 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\point2d.h
+	<iostream>
+
+1541426606 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\polygon.h
+	"drawable.h"
+
+1540870322 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\drawable.h
+
+1540870320 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\point2d.cpp
+	"point2d.h"
+
+1540870320 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\rectangle.cpp
+	"rectangle.h"
+
+1540870322 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\rectangle.h
+	"point2d.h"
+	"polygon.h"
+	"drawable.h"
+
+1540870326 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\square.cpp
+	"square.h"
+
+1541497458 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\square.h
+	"rectangle.h"
+	"polygon.h"
+
+1541502929 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\triangle.cpp
+	"triangle.h"
+	"exception.h"
+
+1541501367 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\triangle.h
+	"point2d.h"
+	"polygon.h"
+	"drawable.h"
+
+1541501921 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\main.cpp
+	<iostream>
+	"square.h"
+	"triangle.h"
+	"rectangle.h"
+	"circle.h"
+	"exception.h"
+
+1541500949 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\exception.cpp
+	"exception.h"
+
+1541502108 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\exception.h
+	<exception>
+
+1541503353 source:c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\cfile.cpp
+	"cfile.h"
+	<stdio.h>
+
+1541503384 c:\users\kamil\documents\jipp\3 sem\30.10.2018\jipp\jipp\cfile.h
+	<fstream>
+
