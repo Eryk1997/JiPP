@@ -1,0 +1,181 @@
+#include "client.h"
+
+int similarityScore(char a, char b)
+{
+    int result;
+    if(a==b)
+    {
+        result=3;
+    }
+    else
+    {
+        result=-3;
+    }
+    return result;
+}
+
+
+int findMax(int array[], int length)
+{
+    int max = array[0];
+
+    for(int i=1; i<length; i++)
+    {
+        if(array[i] > max)
+        {
+            max = array[i];
+        }
+    }
+    return max;
+}
+
+
+
+
+Client::Client(const std::string &identificationNumber)
+{
+    this->idNumber = identificationNumber;
+    this->priority = 0;
+}
+
+std::string Client::getIdNumber()
+{
+    return this->idNumber;
+}
+
+std::string Client::getFullName()
+{
+    return this->fullName;
+}
+
+void Client::setFullName(const std::string &fullName)
+{
+    this->fullName = fullName;
+}
+
+int Client::getPriority()
+{
+    return this->priority;
+}
+
+void Client::updatePriority(int priority)
+{
+    this->priority = priority;
+}
+
+const std::string& Client::getBiometricData()
+{
+    return this->biometricData;
+}
+
+void Client::updateBiometricData(const std::string& biometricData)
+{
+    std::string message="Niedozwolone znaki DNA";
+    int sizeBiometricData = biometricData.length();
+    char tab[]={"ACTG"};
+    for(unsigned i=0;i<sizeBiometricData;i++)
+    {
+        if(biometricData.at(i)!=tab[0] && biometricData.at(i)!=tab[1] && biometricData.at(i)!=tab[2] && biometricData.at(i)!=tab[3])
+        throw IncorrectBiometricDataException(message);
+        }
+    this->biometricData = biometricData;
+}
+
+bool Client::verifyBiometricData(const std::string& biometricData, double threshold)
+{
+
+    std::string message="Niedozwolone znaki DNA";
+    int sizeBiometricData = biometricData.length();
+    char tabACTG[]={"ACTG"};
+    for(unsigned i=0;i<sizeBiometricData;i++)
+    {
+        if(biometricData.at(i)!=tabACTG[0] && biometricData.at(i)!=tabACTG[1] && biometricData.at(i)!=tabACTG[2] && biometricData.at(i)!=tabACTG[3])
+        throw IncorrectBiometricDataException(message);
+        }
+
+    int penalty=-2;
+  //  char wiersz[]={"TGTTACGG"};
+  //  char kolumna[]={"GGTTGACTA"};
+  //  int tab[10][9];
+    int pom[4];
+
+
+    int size_thisBiometicData = this->biometricData.size();
+    int size_newBiometricData = biometricData.size();
+
+    char wiersz[size_thisBiometicData];
+    char kolumna[size_newBiometricData];
+
+    for(int i=0;i<size_thisBiometicData;i++)
+        wiersz[i] = biometricData.at(i);
+
+    for(int i=0;i<size_newBiometricData;i++)
+        kolumna[i] = this->biometricData.at(i);
+
+    int tab[size_newBiometricData+1][size_thisBiometicData+1];
+
+
+    for(int i=0;i<size_newBiometricData+1;i++)
+        for(int j=0;j<size_thisBiometicData+1;j++)
+            tab[i][j]=0;
+
+
+    for(int i=1;i<size_newBiometricData+1;i++){
+        for(int j=1;j<size_thisBiometicData+1;j++)
+            {
+                pom[0] = tab[i-1][j-1]+similarityScore(wiersz[j-1],kolumna[i-1]);
+                pom[1] = tab[i-1][j]+penalty;
+                pom[2] = tab[i][j-1]+penalty;
+                pom[3] = 0;
+                tab[i][j]= findMax(pom,4);
+            }
+    }
+
+    int max=0;
+
+    for(int i=1;i<size_newBiometricData+1;i++){
+        for(int j=1;j<size_thisBiometicData+1;j++){
+            if(max<tab[i][j])
+            {
+                max=tab[i][j];
+            }
+        }
+    }
+
+    if(this->biometricData.size() > biometricData.size())
+        max/=biometricData.size();
+    else
+        max/=this->biometricData.size();
+
+    if(max > threshold)
+        return true;
+    else
+        return false;
+
+}
+
+void Client::newPackage(const std::string& packageId)
+{
+    std::string message="Paczka o podobnym ID istnieje";
+    std::vector<std::string>::iterator wsk=package.begin();
+
+    while(wsk!=package.end())
+    {
+        if((*wsk) == packageId)
+            throw PackageExistsException(message);
+        wsk++;
+    }
+    this->package.push_back(packageId);
+
+}
+
+std::vector<std::string> Client::awaitingPackages()
+{
+    return this->package;
+}
+
+void Client::packagesCollected()
+{
+    this->package.clear();
+}
+
