@@ -25,7 +25,9 @@ int main()
     status = post_office->getStatus();
     assert(status[3] == "Jan Kowalski");
 
-    client0->updateBiometricData("CTGA");
+    client0->updateBiometricData("TGTTACGG");
+    client0->verifyBiometricData("GGTTGACTA",3);
+    cout << "bye";
     return 0;
 }
 

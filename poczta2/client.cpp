@@ -1,4 +1,5 @@
 #include "client.h"
+#include <iostream>
 
 int similarityScore(char a, char b)
 {
@@ -94,10 +95,8 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
         }
 
     int penalty=-2;
-  //  char wiersz[]={"TGTTACGG"};
-  //  char kolumna[]={"GGTTGACTA"};
-  //  int tab[10][9];
     int pom[4];
+    int max=0;
 
 
     int size_thisBiometicData = this->biometricData.size();
@@ -107,13 +106,15 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
     char kolumna[size_newBiometricData];
 
     for(int i=0;i<size_thisBiometicData;i++)
-        wiersz[i] = biometricData.at(i);
+        wiersz[i] = this->biometricData.at(i);
 
     for(int i=0;i<size_newBiometricData;i++)
-        kolumna[i] = this->biometricData.at(i);
+        kolumna[i] = biometricData.at(i);
 
-    int tab[size_newBiometricData+1][size_thisBiometicData+1];
-
+   // int tab[size_newBiometricData+1][size_thisBiometicData+1];
+    int **tab = new int *[size_thisBiometicData+1];
+    for(int i=0;i<size_thisBiometicData+1;i++)
+        tab[i]= new int[size_newBiometricData+1];
 
     for(int i=0;i<size_newBiometricData+1;i++)
         for(int j=0;j<size_thisBiometicData+1;j++)
@@ -128,10 +129,15 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
                 pom[2] = tab[i][j-1]+penalty;
                 pom[3] = 0;
                 tab[i][j]= findMax(pom,4);
+
             }
     }
 
-    int max=0;
+    for(int i=1;i<size_newBiometricData+1;i++){
+        for(int j=1;j<size_thisBiometicData+1;j++)
+            std::cout << tab[i][j] << " ";
+        std::cout << std::endl;
+    }
 
     for(int i=1;i<size_newBiometricData+1;i++){
         for(int j=1;j<size_thisBiometicData+1;j++){
@@ -146,6 +152,11 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
         max/=biometricData.size();
     else
         max/=this->biometricData.size();
+
+
+    for (int i = 0; i<size_thisBiometicData+1; i++)
+       delete [] tab[i];
+    delete[] tab;
 
     if(max > threshold)
         return true;
