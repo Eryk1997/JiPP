@@ -1,7 +1,13 @@
 #include "Player.h"
+
+int Player::ilosc=0;
+
 Player::Player()
 {
-    id++;
+    ilosc++;
+    id=ilosc;
+    typeFeedback=2;
+    xx=0;
 }
 
 int Player::GetID()
@@ -9,9 +15,21 @@ int Player::GetID()
     return id;
 }
 
+void Player::setTypeFeedback(int wartosc)
+{
+    this->typeFeedback = wartosc;
+}
+
+int Player::getTypeFeedback()
+{
+    return typeFeedback;
+}
+
+
 Player::~Player()
 {
-    id--;
+    ilosc--;
+    id=ilosc;
 }
 
 

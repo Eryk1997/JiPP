@@ -2,23 +2,37 @@
 #define QUESTS_H
 #include <vector>
 #include "util.h"
+#include <iterator>
+
+class Iterator;
 
 template <typename T>
 class Quests
 {
 private:
     std::vector<T> containers;
+    int rozmiar;
+
 
 public:
     typedef typename std::vector<T>::iterator iterator;
 
-    Quests(){
-    }
-
-    Quests(T value){
+    Quests(int value){
         if(value < 0)
             throw std::bad_alloc();
+        this->rozmiar = value;
+        containers.reserve(value);
+
+        for(auto x=0;x<value;x++)
+        {
+            T value = generateQuest<T>();
+            containers.push_back(value);
+        }
+
+
     }
+
+
 
     void newQuestion()
     {
@@ -35,22 +49,16 @@ public:
         return containers.at(i);
     }
 
-    typename std::vector<T>::iterator begin()
+
+
+    iterator begin()
     {
-        typename std::vector<T>::iterator xx = containers.begin();
-        return xx;
+        return containers.begin();
     }
 
-    Quests &operator ()(const Quests &od)
+    iterator end()
     {
-        this->containers = od.containers;
-        this->iterator = od.iterator;
-    }
-
-    typename std::vector<T>::iterator end()
-    {
-        typename std::vector<T>::iterator xx = containers.end();
-        return xx;
+        return containers.end();
     }
 
 
