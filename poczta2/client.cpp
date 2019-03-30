@@ -86,7 +86,7 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
 {
 
     std::string message="Niedozwolone znaki DNA";
-    int sizeBiometricData = biometricData.length();
+    size_t sizeBiometricData = biometricData.length();
     char tabACTG[]={"ACTG"};
     for(unsigned i=0;i<sizeBiometricData;i++)
     {
@@ -99,9 +99,9 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
     int max=0;
 
 
-    int size_thisBiometicData = this->biometricData.size();
-    int size_newBiometricData = biometricData.size();
-
+    size_t size_thisBiometicData = this->biometricData.size();
+    size_t  size_newBiometricData = biometricData.size();
+/*
     char wiersz[size_thisBiometicData];
     char kolumna[size_newBiometricData];
 
@@ -110,21 +110,21 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
 
     for(int i=0;i<size_newBiometricData;i++)
         kolumna[i] = biometricData.at(i);
-
+*/
    // int tab[size_newBiometricData+1][size_thisBiometicData+1];
-    int **tab = new int *[size_thisBiometicData+1];
-    for(int i=0;i<size_thisBiometicData+1;i++)
-        tab[i]= new int[size_newBiometricData+1];
+    int **tab = new int*[size_newBiometricData+1];
+    for(size_t i=0;i<size_newBiometricData+1;i++)
+        tab[i]= new int[size_thisBiometicData+1];
 
-    for(int i=0;i<size_newBiometricData+1;i++)
-        for(int j=0;j<size_thisBiometicData+1;j++)
+    for(size_t i=0;i<size_thisBiometicData;i++)
+        for(size_t j=0;j<=size_newBiometricData;j++)
             tab[i][j]=0;
 
 
-    for(int i=1;i<size_newBiometricData+1;i++){
-        for(int j=1;j<size_thisBiometicData+1;j++)
+    for(size_t i=1;i<size_newBiometricData+1;i++){
+        for(size_t j=1;j<size_thisBiometicData+1;j++)
             {
-                pom[0] = tab[i-1][j-1]+similarityScore(wiersz[j-1],kolumna[i-1]);
+                pom[0] = tab[i-1][j-1]+similarityScore(this->biometricData[j-1],biometricData[i-1]);
                 pom[1] = tab[i-1][j]+penalty;
                 pom[2] = tab[i][j-1]+penalty;
                 pom[3] = 0;
@@ -133,14 +133,14 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
             }
     }
 
-    for(int i=1;i<size_newBiometricData+1;i++){
-        for(int j=1;j<size_thisBiometicData+1;j++)
+    for(int i=0;i<size_newBiometricData+1;i++){
+        for(int j=0;j<size_thisBiometicData+1;j++)
             std::cout << tab[i][j] << " ";
         std::cout << std::endl;
     }
 
-    for(int i=1;i<size_newBiometricData+1;i++){
-        for(int j=1;j<size_thisBiometicData+1;j++){
+    for(int i=0;i<size_newBiometricData+1;i++){
+        for(int j=0;j<size_thisBiometicData+1;j++){
             if(max<tab[i][j])
             {
                 max=tab[i][j];
