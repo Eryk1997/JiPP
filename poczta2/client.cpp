@@ -96,7 +96,7 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
 
     int penalty=-2;
     int pom[4];
-    int max=0;
+    double max=0;
 
 
     int size_thisBiometicData = this->biometricData.size();
@@ -158,10 +158,8 @@ bool Client::verifyBiometricData(const std::string& biometricData, double thresh
        delete [] tab[i];
     delete[] tab;
 
-    if(max > threshold)
-        return true;
-    else
-        return false;
+    return max > threshold;
+    
 
 }
 
